@@ -10,6 +10,7 @@ function App() {
     tasks: false,
     completedTasks: false
   })
+  const [tasks, setTasks] = useState([])
 
   function toggleOpen(section) {
     setIsOpen((prev) => ({
@@ -18,12 +19,18 @@ function App() {
     }));
   }
 
+  function addTasks(tasks) {
+    setTasks(prev => [...prev, {...tasks, completed: false, id: (Math.floor(Math.random() * 1000) + 1)}])
+  }
+
+  console.log(tasks)
+
   return (
     <div className="app">
       <div className="task-container">
         <h1>Task List with Priority</h1>
         <button className={`close-button ${isOpen.taskList ? 'open' : ''}`} onClick={() => toggleOpen('taskList')}>+</button>
-        {isOpen.taskList && <TaskForm/>}
+        {isOpen.taskList && <TaskForm addTasks={addTasks}/>}
       </div>
 
       <div className="task-container">
