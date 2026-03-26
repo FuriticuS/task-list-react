@@ -22,13 +22,13 @@ function App() {
     <div className="app">
       <div className="task-container">
         <h1>Task List with Priority</h1>
-        <button className={`close-button ${isOpen ? 'open' : ''}`} onClick={() => toggleOpen('taskList')}>+</button>
+        <button className={`close-button ${isOpen.taskList ? 'open' : ''}`} onClick={() => toggleOpen('taskList')}>+</button>
         {isOpen.taskList && <TaskForm/>}
       </div>
 
       <div className="task-container">
         <h2>Tasks</h2>
-        <button className={`close-button ${isOpen ? 'open' : ''}`} onClick={() => toggleOpen('tasks')}>+</button>
+        <button className={`close-button ${isOpen.tasks ? 'open' : ''}`} onClick={() => toggleOpen('tasks')}>+</button>
 
         {isOpen.tasks && <>
           <div className="sort-controls">
@@ -49,7 +49,7 @@ function App() {
 
       <div className="completed-task-container">
         <h2>Completed Task</h2>
-        <button className={`close-button ${isOpen ? 'open' : ''}`} onClick={() => toggleOpen('completedTasks')}>+
+        <button className={`close-button ${isOpen.completedTasks ? 'open' : ''}`} onClick={() => toggleOpen('completedTasks')}>+
         </button>
 
         {isOpen.completedTasks && <CompletedTaskList/>}
