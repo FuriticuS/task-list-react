@@ -86,7 +86,7 @@ h2 {
 }
 
 .close-button.open {
-  transform: rotate(135deg); /* Turns "×" into "+" */
+  transform: rotate(135deg);
   color: #2980b9;
 }
 
