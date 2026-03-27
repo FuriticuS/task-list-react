@@ -1,9 +1,9 @@
 import {TaskItem} from "../task-item/TaskItem.jsx";
 
-export function CompletedTaskList() {
+export function CompletedTaskList({completedTasks}) {
   return (
     <ul className="completed-task-list">
-      <TaskItem/>
+      {completedTasks.map(task => <TaskItem task={task} key={task.id}/>)}
     </ul>
   );
 }

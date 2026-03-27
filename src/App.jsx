@@ -23,7 +23,10 @@ function App() {
     setTasks(prev => [...prev, {...tasks, completed: false, id: (Math.floor(Math.random() * 1000) + 1)}])
   }
 
-  console.log(tasks)
+  const activeTasks = tasks.filter(task => !task.completed)
+  const completedTasks = tasks.filter(task => task.completed)
+
+  console.log(tasks, activeTasks)
 
   return (
     <div className="app">
@@ -50,7 +53,7 @@ function App() {
               By Priority
             </button>
           </div>
-          <TaskList/>
+          <TaskList activeTasks={activeTasks}/>
         </>}
       </div>
 
@@ -59,7 +62,7 @@ function App() {
         <button className={`close-button ${isOpen.completedTasks ? 'open' : ''}`} onClick={() => toggleOpen('completedTasks')}>+
         </button>
 
-        {isOpen.completedTasks && <CompletedTaskList/>}
+        {isOpen.completedTasks && <CompletedTaskList completedTasks={completedTasks}/>}
       </div>
 
       <Footer/>

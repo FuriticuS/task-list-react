@@ -1,11 +1,11 @@
-export function TaskItem() {
+export function TaskItem({task}) {
   return (
-    <li className={`task-item`}>
+    <li className={`task-item ${task.priority.toLowerCase()}`}>
       <div className="task-info">
         <div>
-          Заголовок <strong>Приоритет</strong>
+          {task.title} <strong>{task.priority}</strong>
         </div>
-        <div className="task-deadline">Due: Дата</div>
+        <div className="task-deadline">Due: {new Date(task.deadLine).toLocaleDateString()} {new Date(task.deadLine).toLocaleTimeString()}</div>
       </div>
       <div className="task-buttons">
         <button className="complete-button">
