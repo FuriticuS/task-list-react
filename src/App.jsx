@@ -23,6 +23,14 @@ function App() {
     setTasks(prev => [...prev, {...tasks, completed: false, id: (Math.floor(Math.random() * 1000) + 1)}])
   }
 
+  function deleteTask(taskId) {
+    setTasks(tasks.filter(task => task.id !== taskId))
+  }
+
+  function completedTask(taskId){
+    setTasks(tasks.map(task => task.id === taskId ? {...task, completed: true} : task))
+  }
+
   const activeTasks = tasks.filter(task => !task.completed)
   const completedTasks = tasks.filter(task => task.completed)
 
@@ -53,7 +61,7 @@ function App() {
               By Priority
             </button>
           </div>
-          <TaskList activeTasks={activeTasks}/>
+          <TaskList activeTasks={activeTasks} deleteTask={deleteTask} completedTask={completedTask}/>
         </>}
       </div>
 
@@ -62,7 +70,7 @@ function App() {
         <button className={`close-button ${isOpen.completedTasks ? 'open' : ''}`} onClick={() => toggleOpen('completedTasks')}>+
         </button>
 
-        {isOpen.completedTasks && <CompletedTaskList completedTasks={completedTasks}/>}
+        {isOpen.completedTasks && <CompletedTaskList completedTasks={completedTasks} deleteTask={deleteTask}/>}
       </div>
 
       <Footer/>
