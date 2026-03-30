@@ -1,5 +1,4 @@
 export function TaskItem({task, deleteTask, completedTask}) {
-  console.log(task.completed)
   return (
     <li className={`task-item ${task.priority.toLowerCase()}`}>
       <div className="task-info">

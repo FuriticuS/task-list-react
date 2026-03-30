@@ -11,6 +11,8 @@ function App() {
     completedTasks: false
   })
   const [tasks, setTasks] = useState([])
+  const [sortType, setSortType] = useState("date")
+  const [sortOrder, setSortOrder] = useState("asc")
 
   function toggleOpen(section) {
     setIsOpen((prev) => ({
@@ -31,8 +33,28 @@ function App() {
     setTasks(tasks.map(task => task.id === taskId ? {...task, completed: true} : task))
   }
 
-  const activeTasks = tasks.filter(task => !task.completed)
-  const completedTasks = tasks.filter(task => task.completed)
+  function sortTasks(tasks) {
+    return tasks.slice().sort((a,b) => {
+      if(sortType === "priority"){
+        const priorityOrder = {Low: 3, Medium: 2, High: 1};
+        return sortOrder === 'asc' ? priorityOrder[a.priority] - priorityOrder[b.priority] : priorityOrder[b.priority] - priorityOrder[a.priority];
+      } else{
+        return sortOrder === 'asc' ? new Date(a.deadLine) - new Date(b.deadLine) : new Date(b.deadLine) - new Date(a.deadLine);
+      }
+    })
+  }
+
+  function toggleSortOrder(type){
+    if(sortType === type){
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+    } else {
+      setSortType(type)
+      setSortOrder('asc')
+    }
+  }
+
+  const activeTasks = sortTasks(tasks.filter(task => !task.completed))
+  const completedTasks = sortTasks(tasks.filter(task => task.completed))
 
   console.log(tasks)
 
@@ -51,16 +73,16 @@ function App() {
         {isOpen.tasks && <>
           <div className="sort-controls">
             <button
-              className={`sort-button`}
-              onClick={() => setTasks(activeTasks.sort((a,b) => new Date(a.deadLine) - new Date(b.deadLine)))}
+              className={`sort-button ${sortType === "date" ? 'active' : ''}`}
+              onClick={() => toggleSortOrder("date")}
             >
-              By Date
+              By Date {sortType === "date" && (sortOrder === 'asc' ? '\u2191' : '\u2193')}
             </button>
             <button
-              className={`sort-button`}
-              onClick={() => setTasks(activeTasks.sort((a,b) => new Date(a.deadLine) - new Date(b.deadLine)))}
+              className={`sort-button ${sortType === "priority" ? 'active' : ''}`}
+              onClick={() => toggleSortOrder("priority")}
             >
-              By Priority
+              By Priority {sortType === "priority" && (sortOrder === 'asc' ? '\u2191' : '\u2193')}
             </button>
           </div>
           <TaskList activeTasks={activeTasks} deleteTask={deleteTask} completedTask={completedTask}/>
