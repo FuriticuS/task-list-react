@@ -34,7 +34,7 @@ function App() {
   const activeTasks = tasks.filter(task => !task.completed)
   const completedTasks = tasks.filter(task => task.completed)
 
-  console.log(tasks, activeTasks)
+  console.log(tasks)
 
   return (
     <div className="app">
@@ -52,11 +52,13 @@ function App() {
           <div className="sort-controls">
             <button
               className={`sort-button`}
+              onClick={() => setTasks(activeTasks.sort((a,b) => new Date(a.deadLine) - new Date(b.deadLine)))}
             >
               By Date
             </button>
             <button
               className={`sort-button`}
+              onClick={() => setTasks(activeTasks.sort((a,b) => new Date(a.deadLine) - new Date(b.deadLine)))}
             >
               By Priority
             </button>
