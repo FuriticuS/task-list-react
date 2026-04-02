@@ -2,7 +2,7 @@ import {TaskForm} from "./components/task-form/TaskForm.jsx";
 import {TaskList} from "./components/task-list/TaskList.jsx";
 import {CompletedTaskList} from "./components/completed-task-list/CompletedTaskList.jsx";
 import {Footer} from "./components/footer/Footer.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 function App() {
   const [isOpen, setIsOpen] = useState({
@@ -13,6 +13,15 @@ function App() {
   const [tasks, setTasks] = useState([])
   const [sortType, setSortType] = useState("date")
   const [sortOrder, setSortOrder] = useState("asc")
+  const [nowStr, setNowStr] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setNowStr(new Date());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   function toggleOpen(section) {
     setIsOpen((prev) => ({
@@ -22,7 +31,12 @@ function App() {
   }
 
   function addTasks(tasks) {
-    setTasks(prev => [...prev, {...tasks, completed: false, id: (Math.floor(Math.random() * 1000) + 1)}])
+    setTasks(prev => [...prev,
+      {...tasks,
+        completed: false,
+        id: (Math.floor(Math.random() * 1000) + 1)
+      }
+    ])
   }
 
   function deleteTask(taskId) {
@@ -56,8 +70,6 @@ function App() {
   const activeTasks = sortTasks(tasks.filter(task => !task.completed))
   const completedTasks = sortTasks(tasks.filter(task => task.completed))
 
-  console.log(tasks)
-
   return (
     <div className="app">
       <div className="task-container">
@@ -85,7 +97,7 @@ function App() {
               By Priority {sortType === "priority" && (sortOrder === 'asc' ? '\u2191' : '\u2193')}
             </button>
           </div>
-          <TaskList activeTasks={activeTasks} deleteTask={deleteTask} completedTask={completedTask}/>
+          <TaskList activeTasks={activeTasks} deleteTask={deleteTask} completedTask={completedTask} overdue={nowStr}/>
         </>}
       </div>
 
